@@ -1,0 +1,248 @@
+      * THIS PROGRAM WILL COMPUTE THE TOTAL SALARY OF FACULTY,
+      * TOTAL NUMBER OF HOUR PRESENT, TOTAL NUMBER OF HOUR ABSENT,
+      * TOTAL NUMBER OF PRESENT. AT END OF FILE,
+      * DISPLAY ALSO THE TOTAL NUMBER OF EXISTING AND
+      * NON-EXISTING FACULTY AND THE TOTAL ACCUMMULATED SALARY
+      * OF ALL EXISTING FACULTY.
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. MERGING-FILES.
+       AUTHOR. GROUP 1.
+       REMARKS. ACTIVITY3.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT ACCT1 ASSIGN TO 'EMP-OPEN.TXT'.
+           SELECT ACCT2 ASSIGN TO 'EMP-TRNS.TXT'.
+           SELECT ACCT3 ASSIGN TO 'EMPMERGE.TXT'.
+       DATA DIVISION.
+       FILE SECTION.
+       FD  ACCT1
+           LABEL RECORD IS STANDARD
+           RECORD CONTAINS 43 CHARACTERS
+           DATA RECORD IS FACULTY-INFO.
+       01  FACULTY-INFO.
+           05 FACULTY-NUM PIC X(12).
+           05 FACULTY-NAME PIC X(25).
+           05 RATE-HR PIC 9(4)V99.
+
+       FD  ACCT2
+           LABEL RECORD IS STANDARD
+           RECORD CONTAINS 15 CHARACTERS
+           DATA RECORD IS FACULTY-ATTEND.
+       01  FACULTY-ATTEND.
+           05 FCULTY-NUM PIC X(12).
+           05 ATTEND-CODE PIC A.
+           05 NUM-HR PIC 99.
+
+       FD  ACCT3.
+       01  MERGING.
+           05 FILLER PIC X(100).
+
+       WORKING-STORAGE SECTION.
+       01  FACULTY-REP.
+           05 FILLER PIC X(15).
+           05 TOT-PRESENT PIC Z9.
+           05 FILLER PIC X(18).
+           05 TOT-ABSENT PIC Z9.
+           05 FILLER PIC X(22).
+           05 TOT-NO-HRS PIC Z99.
+           05 FILLER PIC X(15).
+           05 TOT-SALARY PIC Z9,999.99.
+           05 FILLER PIC X(10).
+       01  OTHER-FIELDS.
+           05 EOF1 PIC X(3) VALUE 'NO'.
+           05 EOF2 PIC X(3) VALUE 'NO'.
+           05 NO-PRESENT PIC 99 VALUE ZEROES.
+           05 NO-ABSENT PIC 99 VALUE ZEROES.
+           05 HOUR-P PIC 999 VALUE ZEROES.
+           05 HOUR PIC 99 VALUE ZEROES.
+           05 HOUR-A PIC 999 VALUE ZEROES.
+           05 NO-HOUR PIC 999 VALUE ZEROES.
+           05 PAY PIC 9(4)V99 VALUE ZEROES.
+           05 SALARY-PAY PIC 9(5)V99 VALUE ZEROES.
+           05 RATE PIC 9(4)V99 VALUE ZEROES.
+           05 ACCUM-SALARY PIC 9(6)V99 VALUE ZEROES.
+           05 NO-EXIST PIC 9(3) VALUE 0.
+           05 NO-NON-EXIST PIC 9(3) VALUE 0.
+
+       01  HDNG1.
+           05 FILLER PIC X(38).
+           05 FILLER PIC X(19) VALUE 'ACE COMPUTER SCHOOL'.
+           05 FILLER PIC X(29).
+       01  HDNG2.
+           05 FILLER PIC X(38).
+           05 FILLER PIC X(20) VALUE 'CARMONA CITY, CAVITE'.
+           05 FILLER PIC X(29).
+       01  HDNG3.
+           05 FILLER PIC X(38).
+           05 FILLER PIC X(21) VALUE 'FACULTY SALARY REPORT'.
+           05 FILLER PIC X(30).
+      
+       01  HEADER1.
+           05 FILLER PIC X(10).
+           05 FILLER PIC X(16) VALUE 'FACULTY NUMBER: '.
+           05 FACULTYNO PIC X(12).
+           05 FILLER PIC X(10).
+
+       01  HEADER2.
+           05 FILLER PIC X(10).
+           05 FILLER PIC X(15) VALUE 'FACULTY NAME: '.
+           05 FACULTYNAME PIC X(20).
+           05 FILLER PIC X(10).
+
+       01  HEAD1.
+           05 FILLER PIC X(10).
+           05 FILLER PIC X(12) VALUE 'TOTAL NUMBER'.
+           05 FILLER PIC X(10).
+           05 FILLER PIC X(12) VALUE 'TOTAL NUMBER'.
+           05 FILLER PIC X(10).
+           05 FILLER PIC X(15) VALUE 'TOTAL NUMBER OF'.
+           05 FILLER PIC X(10).
+           05 FILLER PIC X(6) VALUE 'SALARY'.
+           05 FILLER PIC X(10).
+       01  HEAD2.
+           05 FILLER PIC X(11).
+           05 FILLER PIC X(10) VALUE 'OF PRESENT'.
+           05 FILLER PIC X(12).
+           05 FILLER PIC X(9) VALUE 'OF ABSENT'.
+           05 FILLER PIC X(13).
+           05 FILLER PIC X(13) VALUE 'HOURS PRESENT'.
+           05 FILLER PIC X(12).
+           05 FILLER PIC X(3) VALUE 'PAY'.
+           05 FILLER PIC X(10).
+       01  BLNK-HEAD.
+           05 FILLER PIC X(80).
+       
+       01 TOTAL1.
+           05 FILLER PIC X(10). 
+           05 FILLER PIC X(30) VALUE 'TOTAL ACCUMULATED SALARY PAY: '.
+           05 FILLER PIC X(8). 
+           05 TOT-ACCUMSALARY PIC ZZ9,999.99.
+
+       01 TOTAL2.
+           05 FILLER PIC X(10). 
+           05 FILLER PIC X(25) VALUE 'TOTAL NUMBER OF EXISTING '.
+           05 FILLER PIC X(9) VALUE 'FACULTY: '.
+           05 FILLER PIC X(4).
+           05 TOT-EXIST PIC ZZ9.
+       
+       01 TOTAL3.
+           05 FILLER PIC X(10). 
+           05 FILLER PIC X(29) VALUE 'TOTAL NUMBER OF NON-EXISTING '.
+           05 FILLER PIC X(9) VALUE 'FACULTY: '.
+           05 TOT-NONEXIST PIC ZZ9.
+
+       SCREEN SECTION.
+       01  SCRN.
+           05 BLANK SCREEN.
+
+       PROCEDURE DIVISION.
+       MAIN-RTN.
+           OPEN INPUT ACCT1
+                INPUT ACCT2
+                OUTPUT ACCT3.
+           DISPLAY SCRN.
+           PERFORM WRITE-HDG.
+           READ ACCT1 AT END MOVE 'YES' TO EOF1.
+           READ ACCT2 AT END MOVE 'YES' TO EOF1. 
+           PERFORM MOVE-RTN.
+           PERFORM CHECK-FACULTY-RTN UNTIL EOF1 = 'YES'.
+           PERFORM FINISH-RTN.
+           CLOSE ACCT1, ACCT3.
+           DISPLAY 'END OF MERGING PROGRAM!'.
+           STOP RUN.
+
+       WRITE-HDG.
+           WRITE MERGING FROM HDNG1.
+           WRITE MERGING FROM HDNG2.
+           WRITE MERGING FROM BLNK-HEAD AFTER 3.
+           WRITE MERGING FROM HDNG3 AFTER 1.
+           WRITE MERGING FROM BLNK-HEAD AFTER 1.
+           
+
+       CHECK-FACULTY-RTN.
+       
+           IF FACULTY-NUM IS EQUAL TO FCULTY-NUM
+              ADD 1 TO NO-NON-EXIST
+              PERFORM COMPUTE-RTN
+
+           ELSE
+              PERFORM SEARCH-FACULTY-RTN UNTIL EOF2 = 'YES'
+     
+             WRITE MERGING FROM BLNK-HEAD AFTER 1
+             WRITE MERGING FROM HEADER1
+             WRITE MERGING FROM HEADER2
+             WRITE MERGING FROM HEAD1
+             WRITE MERGING FROM HEAD2
+              
+              PERFORM BREAK-RTN
+              OPEN INPUT ACCT2
+              
+              PERFORM FACULTY-INFO-RTN.
+           READ ACCT2.
+           ADD 1 TO NO-NON-EXIST.
+       COMPUTE-RTN.
+            MOVE NUM-HR TO HOUR.
+             MOVE RATE-HR TO RATE.
+
+           IF ATTEND-CODE = 'P'
+             
+              ADD 1 TO NO-PRESENT
+              
+                COMPUTE HOUR-P = HOUR + HOUR-P
+               MOVE NO-PRESENT TO TOT-PRESENT.
+
+           IF ATTEND-CODE = 'A' 
+              ADD 1 TO NO-ABSENT
+                COMPUTE HOUR-A = HOUR + HOUR-A
+               MOVE NO-ABSENT TO TOT-ABSENT.
+
+           COMPUTE NO-HOUR = HOUR-P - HOUR-A. 
+           COMPUTE SALARY-PAY = NO-HOUR * RATE.
+
+             MOVE SALARY-PAY TO TOT-SALARY.
+             MOVE NO-HOUR TO TOT-NO-HRS.
+
+       SEARCH-FACULTY-RTN.
+           READ ACCT2 AT END MOVE 'YES' TO EOF2.
+           IF FACULTY-NUM IS EQUAL TO FCULTY-NUM
+              IF EOF2 NOT = 'YES'
+                 PERFORM COMPUTE-RTN.
+       BREAK-RTN.
+          
+           WRITE MERGING FROM FACULTY-REP.
+           MOVE 0 TO NO-PRESENT.
+           MOVE 0 TO NO-ABSENT.
+           MOVE 0 TO TOT-PRESENT.
+           MOVE 0 TO TOT-ABSENT.
+           MOVE 0 TO HOUR-P.
+           MOVE 0 TO HOUR-A.
+           MOVE 0 TO HOUR.
+           MOVE 0 TO RATE.
+           COMPUTE ACCUM-SALARY = SALARY-PAY + ACCUM-SALARY.
+           MOVE 0 TO SALARY-PAY.
+       
+           CLOSE ACCT2.
+           MOVE 'NO' TO EOF2.
+
+       FACULTY-INFO-RTN.
+           READ ACCT1 AT END MOVE 'YES' TO EOF1.
+              ADD 1 TO NO-EXIST.
+           PERFORM MOVE-RTN.
+           
+       
+       MOVE-RTN.
+           MOVE FACULTY-NUM TO FACULTYNO.
+           MOVE FACULTY-NAME TO FACULTYNAME.        
+           
+       FINISH-RTN.
+           MOVE ACCUM-SALARY TO TOT-ACCUMSALARY.
+           MOVE NO-EXIST TO TOT-EXIST.
+           MOVE NO-NON-EXIST TO TOT-NONEXIST.
+           WRITE MERGING FROM TOTAL1 AFTER 4.
+           WRITE MERGING FROM TOTAL2.     
+           WRITE MERGING FROM TOTAL3.
+
+     
+
+      

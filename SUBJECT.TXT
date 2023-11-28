@@ -1,0 +1,7 @@
+IT 2001   PROGRAMMING 1                 
+HIST 1000 PHIL. HISTORY                 
+NATSCI 100BIOLOGY                       
+NATSCI 105PHYSICS                       
+COMP 2000 DATABASE MANAGEMENT SYSTEMS   
+IT 2003	  PROGRAMMING 3                 
+MATH 1000 DISCRETE STRUCTURE            

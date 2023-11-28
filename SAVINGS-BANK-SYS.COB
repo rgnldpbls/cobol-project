@@ -1,0 +1,141 @@
+      * THIS PROGRAM WILL READ TWO INPUT FILES AND MERGE INTO 1 OUTPUT
+      * FILE. THE TWO INPUT FILES ARE UNSORTED. THE PROGRAM WILL SEARCH
+      * THE ACCOUNT FROM THE 2ND FILE AND COMPUTE THE OUTSTANDING
+      * BALANCE OF EACH ACCOUNT.
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. MERGING-FILES.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT ACCT1 ASSIGN TO 'ACC-OPEN.TXT'.
+           SELECT ACCT2 ASSIGN TO 'ACC-TRNS.TXT'.
+           SELECT ACCT3 ASSIGN TO 'MERGE.TXT'.
+       DATA DIVISION.
+       FILE SECTION.
+       FD  ACCT1
+           LABEL RECORD IS STANDARD
+           RECORD CONTAINS 42 CHARACTERS
+           DATA RECORD IS ACCT-INFO.
+       01  ACCT-INFO.
+           05 ACCT-NUM PIC X(10).
+           05 ACCT-NAME PIC X(25).
+           05 INIT-BAL PIC 9(5)V99.
+       FD  ACCT2
+           LABEL RECORD IS STANDARD
+           RECORD CONTAINS 18 CHARACTERS
+           DATA RECORD IS ACCT-TRANS.
+       01  ACCT-TRANS.
+           05 ACCTNUM PIC X(10).
+           05 TRANSCODE PIC A.
+           05 AMOUNT PIC 9(5)V99.
+       FD  ACCT3.
+       01  MERGING.
+           05 FILLER PIC X(80).
+       WORKING-STORAGE SECTION.
+       01  ACCT-REP.
+           05 FILLER PIC X(10).
+           05 ACCTNO PIC X(10).
+           05 FILLER PIC X(10).
+           05 ACCTNAME PIC X(25).
+           05 FILLER PIC X(12).
+           05 BALANCE PIC ZZ9,999.99.
+       01  OTHER-FIELDS.
+           05 EOF1 PIC X(3) VALUE 'NO'.
+           05 EOF2 PIC X(3) VALUE 'NO'.
+           05 BAL PIC 9(6)V99 VALUE 0.
+       01  HEAD1.
+           05 FILLER PIC X(29).
+           05 FILLER PIC X(22) VALUE 'BANKAROTE SAVINGS BANK'.
+           05 FILLER PIC X(29).
+       01  HEAD2.
+           05 FILLER PIC X(30).
+           05 FILLER PIC X(21) VALUE 'CITY OF MANILA BRANCH'.
+           05 FILLER PIC X(29).
+       01  HEAD3.
+           05 FILLER PIC X(31).
+           05 FILLER PIC X(19) VALUE 'BANK ACCOUNT REPORT'.
+           05 FILLER PIC X(30).
+       01  HEAD4.
+           05 FILLER PIC X(14).
+           05 FILLER PIC X(7) VALUE 'ACCOUNT'.
+           05 FILLER PIC X(14).
+           05 FILLER PIC X(7) VALUE 'ACCOUNT'.
+           05 FILLER PIC X(25).
+           05 FILLER PIC X(11) VALUE 'OUTSTANDING'.
+       01  HEAD5.
+           05 FILLER PIC X(14).
+           05 FILLER PIC X(6) VALUE 'NUMBER'.
+           05 FILLER PIC X(16).
+           05 FILLER PIC X(7) VALUE 'NAME'.
+           05 FILLER PIC X(25).
+           05 FILLER PIC X(7) VALUE 'BALANCE'.
+           05 FILLER PIC X(5).
+       01  BLNK-HEAD.
+           05 FILLER PIC X(80).
+       SCREEN SECTION.
+       01  SCRN.
+           05 BLANK SCREEN.
+       PROCEDURE DIVISION.
+       MAIN-RTN.
+           OPEN INPUT ACCT1
+                INPUT ACCT2
+                OUTPUT ACCT3.
+           DISPLAY SCRN.
+           PERFORM WRITE-HDG.
+           READ ACCT1 AT END MOVE 'YES' TO EOF1.
+           READ ACCT2.
+           PERFORM MOVE-RTN.
+           PERFORM CHECK-ACCT-RTN UNTIL EOF1 = 'YES'.
+           PERFORM FINISH-RTN.
+
+       WRITE-HDG.
+           WRITE MERGING FROM HEAD1.
+           WRITE MERGING FROM HEAD2.
+           WRITE MERGING FROM BLNK-HEAD.
+           WRITE MERGING FROM HEAD3 AFTER 1.
+           WRITE MERGING FROM BLNK-HEAD.
+           WRITE MERGING FROM HEAD4.
+           WRITE MERGING FROM HEAD5.
+           WRITE MERGING FROM BLNK-HEAD.
+
+       MOVE-RTN.
+           MOVE INIT-BAL TO BAL.
+           MOVE ACCT-NUM TO ACCTNO.
+           MOVE ACCT-NAME TO ACCTNAME.
+
+       CHECK-ACCT-RTN.
+           IF ACCT-NUM IS EQUAL TO ACCTNUM
+              PERFORM COMPUTE-RTN
+           ELSE
+              PERFORM SEARCH-ACCT-RTN UNTIL EOF2 = 'YES'
+              PERFORM BREAK-RTN
+              OPEN INPUT ACCT2
+              PERFORM ACCT-INFO-RTN.
+           READ ACCT2.
+
+       COMPUTE-RTN.
+           IF TRANSCODE = 'D'
+              ADD AMOUNT TO BAL
+           ELSE COMPUTE BAL = BAL - AMOUNT.
+
+       SEARCH-ACCT-RTN.
+           READ ACCT2 AT END MOVE 'YES' TO EOF2.
+           IF ACCT-NUM IS EQUAL TO ACCTNUM
+              IF EOF2 NOT = 'YES'
+                 PERFORM COMPUTE-RTN.
+
+       BREAK-RTN.
+           MOVE BAL TO BALANCE.
+           WRITE MERGING FROM ACCT-REP.
+           MOVE 0 TO BAL.
+           CLOSE ACCT2.
+           MOVE 'NO' TO EOF2.
+
+       ACCT-INFO-RTN.
+           READ ACCT1 AT END MOVE 'YES' TO EOF1.
+           PERFORM MOVE-RTN.
+
+       FINISH-RTN.
+           CLOSE ACCT1, ACCT2, ACCT3.
+           DISPLAY 'END OF MERGING PROGRAM!'.
+           STOP RUN.

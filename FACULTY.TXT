@@ -1,0 +1,11 @@
+COMP 2000 67890	      RUDOLF ESGUERRA          
+NATSCI 10512345	      KHEI AREVALO             
+IT 2001	  34567	      AL PAGALILAWAN           
+COMP 2000 23456	      FRANSTEL GARCIA          
+HIST 1000 45678	      DONG DAMOLES             
+IT 2003	  56789	      ELY AUSTRIA              
+MATH 1000 89012	      IAN SAGUINDAN            
+NATSCI 10012345	      KHEI AREVALO             
+COMP 2000 34567	      AL PAGALILAWAN           
+IT 2001	  56789	      ELY AUSTRIA              
+MATH 1000 78901	      JEFF COSTALES            

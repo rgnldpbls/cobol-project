@@ -1,0 +1,23 @@
+NATSCI 10012345       2011	       GEL                      
+COMP 2000 23456	      2010	       FRANZ                    
+IT 2003	  56789	      2008	       JHAY                     
+IT 2001	  34567	      2009	       MARK                     
+COMP 2000 34567	      2011	       GEL                      
+NATSCI 10012345	      2012	       JULZ                     
+HIST 1000 45678	      2010	       FRANZ                    
+NATSCI 10512345	      2008	       JHAY                     
+NATSCI 10012345	      2010	       FRANZ                    
+COMP 2000 67890	      2012	       JULZ                     
+COMP 2000 34567	      2009	       MARK                     
+NATSCI 10512345	      2009	       MARK                     
+NATSCI 10512345	      2012	       JULZ                     
+HIST 1000 45678	      2008	       JHAY                     
+IT 2003	  56789	      2010	       FRANZ                    
+HIST 1000 45678	      2011	       GEL                      
+MATH 1000 78901	      2010	       FRANZ                    
+NATSCI 10512345	      2010	       FRANZ                    
+MATH 1000 89012	      2009	       MARK                     
+IT 2001	  56789	      2011	       GEL                      
+MATH 1000 78901	      2008	       JHAY                     
+IT 2003	  56789	      2012	       JULZ                     
+IT 2003	  56789	      2011	       GEL                      

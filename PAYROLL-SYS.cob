@@ -1,0 +1,146 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. ACT4.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+               SELECT OUTFILE ASSIGN TO 'REPORT.TXT'.
+       DATA DIVISION.
+       FILE SECTION.
+       FD  OUTFILE.
+       01  OUTREC.
+           05 FILLER PIC X(80).
+       WORKING-STORAGE SECTION.
+      *  INPUT DATA USING  *
+      *  ACCEPT & DISPLAY  *
+       01  INPUT-VARIABLES.
+           05  EMPNO PIC X(5).
+           05  EMPNAME PIC X(25).
+           05  RP-HOUR PIC 9(3)V99.
+           05  H-WORK PIC 9(3).
+           05  GSIS PIC 9(4)V99.
+           05  PHIL-H PIC 9(3)V99.
+           05  P-IBIG PIC 9(4)V99.
+           05  WH-TAX PIC 9(4)V99.
+           05  ANS PIC X VALUE 'Y'.
+       01  COMPUTABLE-VARIABLES.
+           05  GROSS PIC 9(5)V99 VALUE 0.
+           05  GROSS-SAL PIC ZZ,Z99.99.
+           05  DEDUC PIC 9(5)V99 VALUE 0.
+           05  DEDUCTION PIC ZZ,Z99.99.
+           05  NET-PAY PIC 9(5)V99 VALUE 0.
+           05  TOT-NO-EMP PIC 9(5) VALUE 0.
+           05  ACC-SAL PIC 9(7)V99 VALUE 0.
+      *  OUTPUT FILE  *
+       01  HDG1.
+           05 FILLER PIC X(19) VALUE SPACES.
+           05 FILLER PIC X(23) VALUE "POLYTECHNIC UNIVERSITY ".
+           05 FILLER PIC X(18) VALUE "OF THE PHILIPPINES".
+           05 FILLER PIC X(20) VALUE SPACES.
+       01  HDG2.
+           05 FILLER PIC X(33) VALUE SPACES.
+           05 FILLER PIC X(14) VALUE "PAYROLL REPORT".
+           05 FILLER PIC X(33) VALUE SPACES.
+       01  COLHDG.
+           05 FILLER PIC X(15) VALUE SPACES.
+           05 FILLER PIC X(8) VALUE "EMPLOYEE".
+           05 FILLER PIC X(15) VALUE SPACES.
+           05 FILLER PIC X(8) VALUE "EMPLOYEE".
+           05 FILLER PIC X(15) VALUE SPACES.
+           05 FILLER PIC X(3) VALUE "NET".
+           05 FILLER PIC X(16) VALUE SPACES.
+       01  COLHDG2.
+           05 FILLER PIC X(16) VALUE SPACES.
+           05 FILLER PIC X(6) VALUE "NUMBER".
+           05 FILLER PIC X(17) VALUE SPACES.
+           05 FILLER PIC X(4) VALUE "NAME".
+           05 FILLER PIC X(17) VALUE SPACES.
+           05 FILLER PIC X(3) VALUE "PAY".
+           05 FILLER PIC X(17) VALUE SPACES.
+       01  BLNK-HDR.
+           05 FILLER PIC X(80).
+       01  REC-OUT.
+           05 EMP-NUM PIC X(5).
+           05 EMP-NA PIC X(25).
+           05 N-PAY PIC ZZ,999.99.
+       01  TOT-EMP.
+           05 FILLER PIC X(10) VALUE SPACES.
+           05 FILLER PIC X(27) VALUE "TOTAL NUMBER OF EMPLOYEES: ".
+           05 TOT-NUM-EMP PIC ZZ,ZZ9.
+           05 FILLER PIC X(37) VALUE SPACES.
+       01  TOT-ACC.
+           05 FILLER PIC X(10) VALUE SPACES.
+           05 FILLER PIC X(28) VALUE "TOTAL ACCUMULATED SALARIES: ".
+           05 TOT-ACC-SAL PIC Z,ZZZ,999.99.
+           05 FILLER PIC X(30) VALUE SPACES.
+       SCREEN SECTION.
+       01  CLRSCR.
+           05 BLANK SCREEN.
+       PROCEDURE DIVISION.
+       MAIN-RTN.
+           OPEN OUTPUT OUTFILE.
+           WRITE OUTREC FROM HDG1.
+           WRITE OUTREC FROM BLNK-HDR.
+           WRITE OUTREC FROM HDG2.
+           WRITE OUTREC FROM BLNK-HDR.
+           WRITE OUTREC FROM COLHDG.
+           WRITE OUTREC FROM COLHDG2.
+           PERFORM PROCESS-RTN THRU PROCESS-END
+                   UNTIL ANS = 'N' OR ANS = 'n'.
+           PERFORM FINAL-RTN THRU FINAL-RTN-END.
+           CLOSE OUTFILE.
+           STOP RUN.
+       PROCESS-RTN.
+           DISPLAY CLRSCR.
+           DISPLAY (2, 15)"ENTER EMPLOYEE NO:".
+           ACCEPT (2, 30)EMPNO.
+           DISPLAY (3, 15)"ENTER EMPLOYEE NAME:  ".
+           ACCEPT (3, 40)EMPNAME.
+           DISPLAY (4, 15)"RATE PER HOUR:    ".
+           ACCEPT (4, 40)RP-HOUR.
+           DISPLAY (5, 15)"NO. OF HOURS WORKED: ".
+           ACCEPT (5, 40)H-WORK.
+           COMPUTE GROSS = (RP-HOUR * H-WORK).
+           MOVE GROSS TO GROSS-SAL.
+           DISPLAY (6, 15)"GROSS SALARY: " GROSS-SAL.
+           DISPLAY (7, 15)"GSIS CONTRIBUTION: ".
+           ACCEPT (7, 40)GSIS.
+           DISPLAY (8, 15)"PHILHEALTH: ".
+           ACCEPT (8, 40)PHIL-H.
+           DISPLAY (9, 15)"PAG-IBIG: "
+           ACCEPT (9, 40)P-IBIG.
+           DISPLAY (10, 15)"WITHOLDING TAX: ".
+           ACCEPT (10, 40)WH-TAX.
+           COMPUTE DEDUC = (GSIS + PHIL-H + P-IBIG + WH-TAX).
+           MOVE DEDUC TO DEDUCTION.
+           DISPLAY (11, 15)"DEDUCTIONS: " DEDUCTION.
+           COMPUTE NET-PAY = (GROSS - DEDUC).
+           MOVE NET-PAY TO N-PAY.
+           DISPLAY (12, 15)"NET PAY: " N-PAY.
+           MOVE EMPNO TO EMP-NUM.
+           MOVE EMPNAME TO EMP-NA.
+           WRITE OUTREC FROM REC-OUT AFTER ADVANCING 2 LINE.
+           ADD 1 TO TOT-NO-EMP.
+           COMPUTE ACC-SAL = GROSS + ACC-SAL.
+           DISPLAY "ENTER ANOTHER [Y/N]?   ".
+           PERFORM ANS-RTN THRU ANS-END.
+       PROCESS-END.
+
+       ANS-RTN.
+           ACCEPT ANS.
+              IF ANS = 'Y' OR ANS = 'y'
+                 PERFORM PROCESS-RTN THRU PROCESS-END
+              ELSE IF ANS = 'N' OR ANS = 'n'
+                 DISPLAY "END OF PROGRAM"
+              ELSE
+                 DISPLAY "INVALID INPUT"
+                 PERFORM ANS-RTN THRU ANS-END
+              END-IF.
+       ANS-END.
+
+       FINAL-RTN.
+           MOVE TOT-NO-EMP TO TOT-NUM-EMP.
+           MOVE ACC-SAL TO TOT-ACC-SAL.
+           WRITE OUTREC FROM BLNK-HDR.
+           WRITE OUTREC FROM TOT-EMP.
+           WRITE OUTREC FROM TOT-ACC.
+       FINAL-RTN-END.

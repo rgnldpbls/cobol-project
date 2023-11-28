@@ -1,0 +1,6 @@
+12345     ELY AUSTRIA              1000000
+23456     JHAY VILLAREAL           0500000
+34567     MARK ABAYA               0700000
+45678     JETH CRUZ                1500000
+99999     FRANZ DELA               2000000
+77777     GEL QUE                  2500000
