@@ -65,7 +65,7 @@
        FD OUTPUT2.
        01 GRADES.
            05 FILLER PIC X(80).
-      
+
        WORKING-STORAGE SECTION.
       *ENROLLMENT SYSTEM: HEADERS
        01 HDNG1.
@@ -112,7 +112,7 @@
            05 FILLER PIC X(30) VALUE 'GRAND TOTAL NUMBER OF STUDENTS'.
            05 FILLER PIC X(13) VALUE ' ENROLLED:   '.
            05 GT-NO-ENRL PIC Z,Z99.
-           05 FILLER PIC X(32).    
+           05 FILLER PIC X(32).
 
        01 ENROLL-OTHERS.
            05 EOF1 PIC X(3) VALUE 'NO'.
@@ -144,7 +144,7 @@
            05 FILLER PIC X(13) VALUE 'AVERAGE GRADE'.
            05 FILLER PIC X(7).
            05 FILLER PIC X(7) VALUE 'REMARKS'.
-      
+
       *OUTPUT VARIABLES FOR GRADING SYSTEM
        01 G-INFO.
            05 STUD-NO2 PIC X(12).
@@ -178,7 +178,7 @@
        SCREEN SECTION.
        01 SCRN.
            05 BLANK SCREEN.
-       
+
        PROCEDURE DIVISION.
       *======================= ENROLLMENT SYSTEM =======================
            OPEN INPUT INPUT1
@@ -215,7 +215,7 @@
            PERFORM DISC-PRCS-RTN.
            PERFORM FINISH-RTN.
            CLOSE INPUT1, INPUT3, OUTPUT1.
-       
+
       *======================== GRADING SYSTEM =========================
            OPEN INPUT INPUT2
                 INPUT INPUT3
@@ -223,7 +223,7 @@
                 OUTPUT OUTPUT2.
       *DISPLAY HEADERS
            PERFORM WRITE-HDNG2.
-      *COMP 2000 DATABASE MANAGEMENT SYSTEMS WITH FACULTY ID: 67890 
+      *COMP 2000 DATABASE MANAGEMENT SYSTEMS WITH FACULTY ID: 67890
            PERFORM PRCS-RTN.
            CLOSE INPUT3, INPUT4.
       *NATSCI 105 PHYSICS WITH FACULTY ID: 12345
@@ -250,7 +250,7 @@
            OPEN INPUT INPUT3
                 INPUT INPUT4.
            PERFORM PRCS-RTN6.
-           CLOSE INPUT3, INPUT4.    
+           CLOSE INPUT3, INPUT4.
       *MATH 1000 DISCRETE STRUCTURE WITH FACULTY ID: 89012
            OPEN INPUT INPUT3
                 INPUT INPUT4.
@@ -274,10 +274,10 @@
       *MATH 1000 DISCRETE STRUCTURE WITH FACULTY ID: 78901
            OPEN INPUT INPUT3
                 INPUT INPUT4.
-           PERFORM PRCS-RTN11. 
+           PERFORM PRCS-RTN11.
            CLOSE INPUT2, INPUT3, INPUT4, OUTPUT2.
       *DISPLAY TO CONSOLE
-           DISPLAY '--------------------------- END OF MERGING PROGRAM' 
+           DISPLAY '--------------------------- END OF MERGING PROGRAM'
            ' ----------------------------'.
            DISPLAY '                       PLEASE CHECK THE '
            'ENROLL.TXT FILE                        ' AT LINE 2.
@@ -285,10 +285,10 @@
            'GRADES.TXT FILE                        ' AT LINE 3.
            STOP RUN.
 
-      *================================================================= 
+      *=================================================================
       *===================== ENROLLMENT SYSTEM RTNs ====================
       *=================================================================
-      *HEADER FOR ENROLLMENT  
+      *HEADER FOR ENROLLMENT
        WRITE-HDNG.
            WRITE ENROLL FROM HDNG1.
            WRITE ENROLL FROM HDNG2.
@@ -296,7 +296,7 @@
            WRITE ENROLL FROM HDNG3.
            WRITE ENROLL FROM BLANK-HEADING AFTER 2.
 
-      *PROGRAMMING 1   
+      *PROGRAMMING 1
        PROG1-PRCS-RTN.
            READ INPUT1.
            IF SUBJ-CODE = 'IT 2001   '
@@ -311,7 +311,7 @@
                WRITE ENROLL FROM FTR-STUD-NUM-E.
                WRITE ENROLL FROM BLANK-HEADING.
                PERFORM ENRL-BREAK-RTN.
-       
+
       *PHIL. HISTORY
        PHILHIST-PRCS-RTN.
            READ INPUT1.
@@ -343,8 +343,8 @@
                WRITE ENROLL FROM FTR-STUD-NUM-E.
                WRITE ENROLL FROM BLANK-HEADING.
                PERFORM ENRL-BREAK-RTN.
-      
-      *PHYSICS 
+
+      *PHYSICS
        PHYS-PRCS-RTN.
            READ INPUT1.
            IF SUBJ-CODE = 'NATSCI 105'
@@ -359,7 +359,7 @@
                WRITE ENROLL FROM FTR-STUD-NUM-E.
                WRITE ENROLL FROM BLANK-HEADING.
                PERFORM ENRL-BREAK-RTN.
-       
+
       *DATABASE MANAGEMENT SYSTEMS
        DMS-PRCS-RTN.
            READ INPUT1.
@@ -407,7 +407,7 @@
                WRITE ENROLL FROM FTR-STUD-NUM-E.
                WRITE ENROLL FROM BLANK-HEADING.
                PERFORM ENRL-BREAK-RTN.
-      
+
       *COMPUTE RTN FOR EACH SUBJECT
        ENRL-COMPUTE-RTN.
            IF SUBJ-CODE3 = SUB-CD
@@ -428,7 +428,7 @@
        FINISH-RTN.
            WRITE ENROLL FROM BLANK-HEADING.
            WRITE ENROLL FROM GT-NUM-E.
-      
+
       *=================================================================
       *====================== GRADING SYSTEM RTNs ======================
       *=================================================================
@@ -460,7 +460,7 @@
                WRITE GRADES FROM FTR-TOT-FAIL.
                WRITE GRADES FROM BLANK-HEADING.
                PERFORM ULTRA-BREAK-TRN.
-       
+
       *NATSCI 105 PHYSICS WITH FACULTY ID: 12345
        PRCS-RTN2.
            READ INPUT2.
@@ -481,7 +481,7 @@
                WRITE GRADES FROM FTR-TOT-FAIL.
                WRITE GRADES FROM BLANK-HEADING.
                PERFORM ULTRA-BREAK-TRN.
-       
+
       *IT 2001 PROGRAMMING 1 WITH FACULTY ID: 34567
        PRCS-RTN3.
            READ INPUT2.
@@ -502,7 +502,7 @@
                WRITE GRADES FROM FTR-TOT-FAIL.
                WRITE GRADES FROM BLANK-HEADING.
                PERFORM ULTRA-BREAK-TRN.
-       
+
       *COMP 2000 DATABASE MANAGEMENT SYSTEMS WITH FACULTY ID: 23456
        PRCS-RTN4.
            READ INPUT2.
@@ -523,7 +523,7 @@
                WRITE GRADES FROM FTR-TOT-FAIL.
                WRITE GRADES FROM BLANK-HEADING.
                PERFORM ULTRA-BREAK-TRN.
-      
+
       *HIST 1000 PHIL. HISTORY WITH FACULTY ID: 45678
        PRCS-RTN5.
            READ INPUT2.
@@ -544,12 +544,12 @@
                WRITE GRADES FROM FTR-TOT-FAIL.
                WRITE GRADES FROM BLANK-HEADING.
                PERFORM ULTRA-BREAK-TRN.
-       
+
       *IT 2003 PROGRAMMING 3 WITH FACULTY ID: 56789
        PRCS-RTN6.
            READ INPUT2.
-           IF SUBJ-CODE2 = 'IT 2003	  ' AND
-               FACULTY-ID = '56789	      '
+           IF SUBJ-CODE2 = 'IT 2003      ' AND
+               FACULTY-ID = '56789          '
                MOVE SUBJ-CODE2 TO SUBJ-C.
                MOVE FACULTY-ID TO FACUL-ID.
                MOVE FACULTY-NAME TO FACUL-NAME.
@@ -565,12 +565,12 @@
                WRITE GRADES FROM FTR-TOT-FAIL.
                WRITE GRADES FROM BLANK-HEADING.
                PERFORM ULTRA-BREAK-TRN.
-       
+
       *MATH 1000 DISCRETE STRUCTURE WITH FACULTY ID: 89012
        PRCS-RTN7.
            READ INPUT2.
            IF SUBJ-CODE2 = 'MATH 1000 ' AND
-               FACULTY-ID = '89012	      '
+               FACULTY-ID = '89012          '
                MOVE SUBJ-CODE2 TO SUBJ-C.
                MOVE FACULTY-ID TO FACUL-ID.
                MOVE FACULTY-NAME TO FACUL-NAME.
@@ -586,12 +586,12 @@
                WRITE GRADES FROM FTR-TOT-FAIL.
                WRITE GRADES FROM BLANK-HEADING.
                PERFORM ULTRA-BREAK-TRN.
-       
+
       *NATSCI 100 BIOLOGY WITH FACULTY ID: 12345
        PRCS-RTN8.
            READ INPUT2.
            IF SUBJ-CODE2 = 'NATSCI 100' AND
-               FACULTY-ID = '12345	      '
+               FACULTY-ID = '12345          '
                MOVE SUBJ-CODE2 TO SUBJ-C.
                MOVE FACULTY-ID TO FACUL-ID.
                MOVE FACULTY-NAME TO FACUL-NAME.
@@ -607,12 +607,12 @@
                WRITE GRADES FROM FTR-TOT-FAIL.
                WRITE GRADES FROM BLANK-HEADING.
                PERFORM ULTRA-BREAK-TRN.
-      
+
       *COMP 2000 DATABASE MANAGEMENT SYSTEMS WITH FACULTY ID: 34567
        PRCS-RTN9.
            READ INPUT2.
            IF SUBJ-CODE2 = 'COMP 2000 ' AND
-               FACULTY-ID = '34567	      '
+               FACULTY-ID = '34567          '
                MOVE SUBJ-CODE2 TO SUBJ-C.
                MOVE FACULTY-ID TO FACUL-ID.
                MOVE FACULTY-NAME TO FACUL-NAME.
@@ -628,12 +628,12 @@
                WRITE GRADES FROM FTR-TOT-FAIL.
                WRITE GRADES FROM BLANK-HEADING.
                PERFORM ULTRA-BREAK-TRN.
-       
+
       *IT 2001 PROGRAMMING 1 WITH FACULTY ID: 56789
        PRCS-RTN10.
            READ INPUT2.
-           IF SUBJ-CODE2 = 'IT 2001	  ' AND
-               FACULTY-ID = '56789	      '
+           IF SUBJ-CODE2 = 'IT 2001      ' AND
+               FACULTY-ID = '56789          '
                MOVE SUBJ-CODE2 TO SUBJ-C.
                MOVE FACULTY-ID TO FACUL-ID.
                MOVE FACULTY-NAME TO FACUL-NAME.
@@ -649,14 +649,14 @@
                WRITE GRADES FROM FTR-TOT-FAIL.
                WRITE GRADES FROM BLANK-HEADING.
                PERFORM ULTRA-BREAK-TRN.
-       
-       
-      
+
+
+
       *MATH 1000 DISCRETE STRUCTURE WITH FACULTY ID: 78901
        PRCS-RTN11.
            READ INPUT2.
            IF SUBJ-CODE2 = 'MATH 1000 ' AND
-               FACULTY-ID = '78901	      '
+               FACULTY-ID = '78901          '
                MOVE SUBJ-CODE2 TO SUBJ-C.
                MOVE FACULTY-ID TO FACUL-ID.
                MOVE FACULTY-NAME TO FACUL-NAME.
@@ -672,7 +672,7 @@
                WRITE GRADES FROM FTR-TOT-FAIL.
                WRITE GRADES FROM BLANK-HEADING.
                PERFORM ULTRA-BREAK-TRN.
-       
+
       *COMPUTE RTN AND FINAL COMP RTN FOR EACH PROCESS
        COMP-RTN.
            IF SUBJ-CODE3 = SUBJ-C AND FACULTY-ID2 = FACUL-ID
@@ -701,13 +701,12 @@
            WRITE GRADES FROM G-INFO.
            CLOSE INPUT4.
            MOVE 'NO' TO G-EOF2.
-       
+
        ULTRA-BREAK-TRN.
            MOVE 0 TO S-TOT-PASS.
            MOVE 0 TO S-TOT-FAIL.
            MOVE 0 TO S-PASS.
-           MOVE 0 TO S-FAIL.  
+           MOVE 0 TO S-FAIL.
            MOVE 0 TO AVE-GRADE.
            MOVE 'NO' TO G-EOF.
            MOVE 'NO' TO G-EOF2.
-
